@@ -10,7 +10,7 @@ Information about your Account stored in Database. It means that after registrat
 ### Dependencies:
 MS SQL Server<br>
 MS SQL Server Management Studio<br>
-Database with table User [id(primary key), email, password) <br>
+Database with table Users [id(primary key), email, password) <br>
 
 ### Create:
 .NET Framework Web App
@@ -20,11 +20,11 @@ EntityFramework<br>
 PagedList.Mvc
 
 
-### How run:
+### How to run:
 * Clone project
 * Run MS SQL Server
 * Connect to Server by Management Studio
-* Create Database and table User [id(primary key), email, password) 
+* Create Database and table Users [id(primary key), email, password) 
 
 * Change in `Web.config`
 ```
