@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Registration";
+}
+
+@model CryptocurrencyRateWebApp.Models.RegisteringUser
+
+@if (Session.IsNewSession) {
+
+    using (Html.BeginForm("Registration", "Account", FormMethod.Post, new { @class = "login-form" })) {
+        <div><h4>Registration</h4></div>
+        <div class="form-group">
+            @Html.LabelFor(user => user.Email)<br />
+            @Html.EditorFor(user => user.Email, new { htmlAttributes = new { placeholder = "Enter email", autocomplete = "off", @class = "form-control" } })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(user => user.Password)<br />
+            @Html.PasswordFor(user => user.Password, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(user => user.ConfirmPassword)<br />
+            @Html.PasswordFor(user => user.ConfirmPassword, new { @class = "form-control" })
+        </div>
+        @Html.ValidationSummary()
+        <input type="submit" value="Register" class="btn btn-toolbar center-block" />
+        <div style="text-align:center">
+            @Html.ActionLink("back to login", "Login", "Account")
+        </div>
+    }
+}
+else {
+    <h2>You authorized as @Session["email"]</h2>
+}

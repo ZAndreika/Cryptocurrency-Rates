@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model PagedList.IPagedList<CryptocurrencyRateWebApp.Models.Cryptocurrency>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if (!Session.IsNewSession) {
+    using (Html.BeginForm("Index", "Crypto", new { page = ViewBag.CurrentSortField, sortField = ViewBag.NameSort }, FormMethod.Post, new { @class = "form-inline", style="margin-top:10px;" })) {
+        <p>
+            @Html.TextBox("searchString", null, new { @class = "form-control", placeholder = "Enter text" })
+            <input type="submit" value="Filter" class="btn btn-primary" />
+        </p>
+    }
+}
+<table class="table table-hover">
+    @if (!Session.IsNewSession) {
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">@Html.ActionLink("Name", "Index", new { page = Model.PageNumber, sortField = ViewBag.NameSort, searchString = ViewBag.CurrentSearchString })</th>
+            <th scope="col">@Html.ActionLink("Symbol", "Index", new { page = Model.PageNumber, sortField = ViewBag.SymbolSort, searchString = ViewBag.CurrentSearchString })</th>
+            <th scope="col">@Html.ActionLink("Price", "Index", new { page = Model.PageNumber, sortField = ViewBag.PriceSort, searchString = ViewBag.CurrentSearchString })</th>
+            <th scope="col">@Html.ActionLink("Change (1h)", "Index", new { page = Model.PageNumber, sortField = ViewBag.Change1hSort, searchString = ViewBag.CurrentSearchString })</th>
+            <th scope="col">@Html.ActionLink("Change (24h)", "Index", new { page = Model.PageNumber, sortField = ViewBag.Change24hSort, searchString = ViewBag.CurrentSearchString })</th>
+            <th scope="col">@Html.ActionLink("Market Cap", "Index", new { page = Model.PageNumber, sortField = ViewBag.MarketCapSort, searchString = ViewBag.CurrentSearchString })</th>
+            <th scope="col">Last updated</th>
+        </tr>
+        foreach (var item in Model) {
+            <tr>
+                <td>
+                    <img src="@item.Logo" style="width:20px; height:20px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Symbol)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (item.Percent_change_1h < 0) {
+                        @Html.Label(item.Percent_change_1h.ToString() + "%", new { style = "color:red" })
+                    }
+                    else {
+                        @Html.Label(item.Percent_change_1h.ToString() + "%", new { style = "color:green" })
+                    }
+                </td>
+                <td>
+                    @if (item.Percent_change_24h < 0) {
+                        @Html.Label(item.Percent_change_24h.ToString() + "%", new { style = "color:red" })
+                    }
+                    else {
+                        @Html.Label(item.Percent_change_24h.ToString() + "%", new { style = "color:green" })
+                    }
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Market_cap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Last_updated)
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<br />
+@if (!Session.IsNewSession) {
+    <span>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortField = ViewBag.CurrentSortField, searchString = ViewBag.CurrentSearchString }))
+}
+else {
+    <h2 class="text-center">You are not authorized. Please, @Html.ActionLink("Log in", "Login", "Account")</h2>
+}
+
