@@ -77,16 +77,18 @@ namespace CryptocurrencyRateWebApp.Services {
             // Add missing parameters to every currency model
             int i = 0;
             foreach (var currency in Cryptocurrencies) {
-                var price = json["data"][i]["quote"]["USD"]["price"];
+                JToken quote = json["data"][i]["quote"]["USD"];
+
+                var price = quote["price"];
                 currency.Price = price.Type != JTokenType.Null ? (double)price : 0;
 
-                var percent_change_1h = json["data"][i]["quote"]["USD"]["percent_change_1h"];
+                var percent_change_1h = quote["percent_change_1h"];
                 currency.Percent_change_1h = percent_change_1h.Type != JTokenType.Null ? (double)percent_change_1h : 0;
 
-                var percent_change_24h = json["data"][i]["quote"]["USD"]["percent_change_24h"];
+                var percent_change_24h = quote["percent_change_24h"];
                 currency.Percent_change_24h = percent_change_24h.Type != JTokenType.Null ? (double)percent_change_24h : 0;
 
-                var market_cap = json["data"][i]["quote"]["USD"]["market_cap"];
+                var market_cap = quote["market_cap"];
                 currency.Market_cap = market_cap.Type != JTokenType.Null ? (double)market_cap : 0;
 
                 i++;
