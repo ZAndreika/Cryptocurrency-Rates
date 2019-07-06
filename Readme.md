@@ -13,7 +13,7 @@ MS SQL Server Management Studio<br>
 Database with table Users {id(primary key), email, password)} <br>
 
 ### Create:
-.NET Framework Web App
+.NET Framework Web App MVC
 
 ### By NuGet install:
 EntityFramework<br>
