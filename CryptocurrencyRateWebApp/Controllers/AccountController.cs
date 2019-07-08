@@ -1,6 +1,6 @@
 ﻿using CryptocurrencyRateWebApp.DBWorkers;
 using CryptocurrencyRateWebApp.Models;
-using CryptocurrencyRateWebApp.Services;
+using CryptocurrencyRateWebApp.Utils;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,8 +31,7 @@ namespace CryptocurrencyRateWebApp.Controllers
             newUser.Email = regUser.Email;
 
             // hash the password
-            PasswordHasher ph = new PasswordHasher();
-            string passwordHash = ph.HashPassword(regUser.Password);
+            string passwordHash = PasswordHasher.HashPassword(regUser.Password);
             newUser.Password = passwordHash;
 
             // insert to database
@@ -60,8 +59,8 @@ namespace CryptocurrencyRateWebApp.Controllers
                 ModelState.AddModelError("Email", "There is no user with such email");
                 return View(user);
             }
-            PasswordHasher ph = new PasswordHasher();
-            string userPasswordHash = ph.HashPassword(user.Password);
+
+            string userPasswordHash = PasswordHasher.HashPassword(user.Password);
 
             // compare password hashes
             if (verifyingUser.Password != userPasswordHash) {
