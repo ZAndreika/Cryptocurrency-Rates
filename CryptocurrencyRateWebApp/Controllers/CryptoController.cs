@@ -27,7 +27,7 @@ namespace CryptocurrencyRateWebApp.Controllers
             IEnumerable<Cryptocurrency> Cryptocurrencies;
 
             try {
-                Cryptocurrencies = apiWorker.GetCrytpocurrencyRateList();
+                Cryptocurrencies = apiWorker.GetCrytpocurrenciesList();
             }
             catch(WebException e) {
                 return Content(e.ToString());

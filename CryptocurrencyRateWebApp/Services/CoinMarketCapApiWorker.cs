@@ -7,14 +7,14 @@ using System.Net;
 using System.Web;
 
 namespace CryptocurrencyRateWebApp.Services {
-    public class CoinMarketCapApiWorker {
+    public class CoinMarketCapApiWorker : IApiWorker {
         private static string API_KEY = "53f581ca-11e0-4d2d-8a1c-8173b9407662";
 
         /// <summary>
         /// Get information about cryptocurrencies from CoinMarketCap website by CoinMarketCap API
         /// </summary>
-        /// <returns>string in json format with information about cryptocurrencies</returns>
-        public string GetLatestListing() {
+        /// <returns>JToken with cryptocurrencies list</returns>
+        public JToken GetLatestListing() {
             var URL = new UriBuilder("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest");
 
             var queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -27,7 +27,10 @@ namespace CryptocurrencyRateWebApp.Services {
             var client = new WebClient();
             client.Headers.Add("X-CMC_PRO_API_KEY", API_KEY);
             client.Headers.Add("Accepts", "application/json");
-            return client.DownloadString(URL.ToString());
+
+            JObject json;
+            json = JObject.Parse(client.DownloadString(URL.ToString()));
+            return json["data"];
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace CryptocurrencyRateWebApp.Services {
         /// </summary>
         /// <param name="symbols">string with symbols for which need to get info</param>
         /// <returns>JToken which contains logos links</returns>
-        public JToken GetLogos(string symbols) {
+        private JToken GetLogos(string symbols) {
             var URL = new UriBuilder("https://pro-api.coinmarketcap.com/v1/cryptocurrency/info");
 
             var queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -55,8 +58,8 @@ namespace CryptocurrencyRateWebApp.Services {
         /// Parse API answers and generate list of cryptocurrencies with needed params
         /// </summary>
         /// <returns>list of cryptocurrencies</returns>
-        public IEnumerable<Cryptocurrency> GetCrytpocurrencyRateList() {
-            string listing;
+        public IEnumerable<Cryptocurrency> GetCrytpocurrenciesList() {
+            JToken listing;
             try {
                 listing = GetLatestListing();
             }
@@ -64,12 +67,9 @@ namespace CryptocurrencyRateWebApp.Services {
                 throw;
             }
 
-            JObject json;
-            json = JObject.Parse(listing);
-
             // Deserialize parameters that are possible
             IEnumerable<Cryptocurrency> Cryptocurrencies;
-            Cryptocurrencies = JsonConvert.DeserializeObject<List<Cryptocurrency>>(json["data"].ToString());
+            Cryptocurrencies = JsonConvert.DeserializeObject<List<Cryptocurrency>>(listing.ToString());
 
             // list of symbols of every currency to form request for get logos
             List<string> symbols = new List<string>();
@@ -77,7 +77,7 @@ namespace CryptocurrencyRateWebApp.Services {
             // Add missing parameters to every currency model
             int i = 0;
             foreach (var currency in Cryptocurrencies) {
-                JToken quote = json["data"][i]["quote"]["USD"];
+                JToken quote = listing[i]["quote"]["USD"];
 
                 var price = quote["price"];
                 currency.Price = price.Type != JTokenType.Null ? (double)price : 0;
