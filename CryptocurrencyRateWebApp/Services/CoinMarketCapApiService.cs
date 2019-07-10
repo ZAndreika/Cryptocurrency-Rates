@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 
 namespace CryptocurrencyRateWebApp.Services {
-    public class CoinMarketCapApiWorker : IApiWorker {
+    public class CoinMarketCapApiService : IApiWorker {
         private static string API_KEY = "53f581ca-11e0-4d2d-8a1c-8173b9407662";
 
         /// <summary>

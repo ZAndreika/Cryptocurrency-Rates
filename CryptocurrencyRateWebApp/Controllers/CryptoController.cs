@@ -23,7 +23,7 @@ namespace CryptocurrencyRateWebApp.Controllers
             ViewBag.Change24hSort = sortField == "Change1h desc" ? "Change24h asc" : "Change24h desc";
             ViewBag.MarketCapSort = sortField == "MarketCap desc" ? "MarketCap asc" : "MarketCap desc";
 
-            CoinMarketCapApiWorker apiWorker = new CoinMarketCapApiWorker();
+            CoinMarketCapApiService apiWorker = new CoinMarketCapApiService();
             IEnumerable<Cryptocurrency> Cryptocurrencies;
 
             try {
