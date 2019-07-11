@@ -10,7 +10,7 @@ namespace CryptocurrencyRateWebApp.Services
 {
     public class CoinMarketCapApiService : IApiWorker
     {
-        private static string api_key = "53f581ca-11e0-4d2d-8a1c-8173b9407662";
+        private static string apiKey = "53f581ca-11e0-4d2d-8a1c-8173b9407662";
 
         /// <summary>
         /// Get information about cryptocurrencies from CoinMarketCap website by CoinMarketCap API
@@ -28,7 +28,7 @@ namespace CryptocurrencyRateWebApp.Services
             URL.Query = queryString.ToString();
 
             var client = new WebClient();
-            client.Headers.Add("X-CMC_PRO_API_KEY", api_key);
+            client.Headers.Add("X-CMC_PRO_API_KEY", apiKey);
             client.Headers.Add("Accepts", "application/json");
 
             JObject json;
@@ -51,7 +51,7 @@ namespace CryptocurrencyRateWebApp.Services
             URL.Query = queryString.ToString();
 
             var client = new WebClient();
-            client.Headers.Add("X-CMC_PRO_API_KEY", api_key);
+            client.Headers.Add("X-CMC_PRO_API_KEY", apiKey);
             client.Headers.Add("Accepts", "application/json");
 
             JObject json = JObject.Parse(client.DownloadString(URL.ToString()));
