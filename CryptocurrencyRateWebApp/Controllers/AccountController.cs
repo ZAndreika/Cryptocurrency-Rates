@@ -9,20 +9,24 @@ namespace CryptocurrencyRateWebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private CRWADbContext DbContext = new CRWADbContext();
+        private CRWADbContext dbContext = new CRWADbContext();
 
         [HttpGet]
-        public ActionResult Registration() {
-            return View(new RegisteringUser());
+        public ActionResult Registration()
+        {
+            return View(new RegisterUser());
         }
 
         [HttpPost]
-        public ActionResult Registration(RegisteringUser regUser) {
-            if (!ModelState.IsValid) {
+        public ActionResult Registration(RegisterUser regUser)
+        {
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
             // check if user with such email exists
-            if (DbContext.Users.Where(u => u.Email == regUser.Email).FirstOrDefault() != null) {
+            if (dbContext.Users.Where(u => u.Email == regUser.Email).FirstOrDefault() != null)
+            {
                 ModelState.AddModelError("Email", "User with such email already exists");
                 return View(regUser);
             }
@@ -35,8 +39,8 @@ namespace CryptocurrencyRateWebApp.Controllers
             newUser.Password = passwordHash;
 
             // insert to database
-            DbContext.Users.Add(newUser);
-            DbContext.SaveChanges();
+            dbContext.Users.Add(newUser);
+            dbContext.SaveChanges();
 
             // set session parameters
             Session["email"] = newUser.Email;
@@ -44,18 +48,22 @@ namespace CryptocurrencyRateWebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login() {
+        public ActionResult Login()
+        {
             return View(new User());
         }
 
         [HttpPost]
-        public ActionResult Login(User user) {
-            if (!ModelState.IsValid) {
+        public ActionResult Login(User user)
+        {
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
             // find user with such email
-            User verifyingUser = DbContext.Users.Where(u=>u.Email == user.Email).FirstOrDefault();
-            if (verifyingUser == null) {
+            User verifyingUser = dbContext.Users.Where(u => u.Email == user.Email).FirstOrDefault();
+            if (verifyingUser == null)
+            {
                 ModelState.AddModelError("Email", "There is no user with such email");
                 return View(user);
             }
@@ -63,7 +71,8 @@ namespace CryptocurrencyRateWebApp.Controllers
             string userPasswordHash = PasswordHasher.HashPassword(user.Password);
 
             // compare password hashes
-            if (verifyingUser.Password != userPasswordHash) {
+            if (verifyingUser.Password != userPasswordHash)
+            {
                 ModelState.AddModelError("Password", "Incorrect password");
                 return View(user);
             }
@@ -72,7 +81,8 @@ namespace CryptocurrencyRateWebApp.Controllers
             return RedirectToAction("Index", "Crypto");
         }
 
-        public ActionResult Logout() {
+        public ActionResult Logout()
+        {
             // reset session parameters
             Session.Clear();
             Session.Abandon();

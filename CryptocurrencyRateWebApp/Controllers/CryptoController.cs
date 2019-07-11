@@ -11,7 +11,8 @@ namespace CryptocurrencyRateWebApp.Controllers
 {
     public class CryptoController : Controller
     {
-        public ActionResult Index(int? page, string sortField, string searchString) {
+        public ActionResult Index(int? page, string sortField, string searchString)
+        {
             ViewBag.CurrentSortField = sortField;
             ViewBag.CurrentSearchString = searchString;
 
@@ -24,73 +25,90 @@ namespace CryptocurrencyRateWebApp.Controllers
             ViewBag.MarketCapSort = sortField == "MarketCap desc" ? "MarketCap asc" : "MarketCap desc";
 
             CoinMarketCapApiService apiWorker = new CoinMarketCapApiService();
-            IEnumerable<Cryptocurrency> Cryptocurrencies;
+            IEnumerable<Cryptocurrency> cryptocurrencies;
 
-            try {
-                Cryptocurrencies = apiWorker.GetCrytpocurrenciesList();
+            try
+            {
+                cryptocurrencies = apiWorker.GetCrytpocurrenciesList();
             }
-            catch(WebException e) {
+            catch (WebException e)
+            {
                 return Content(e.ToString());
             }
 
             // if user input something into search bar
-            if (!String.IsNullOrEmpty(searchString)) {
-                Cryptocurrencies = Cryptocurrencies.Where(x =>
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                cryptocurrencies = cryptocurrencies.Where(x =>
                 x.Name.ToUpper().Contains(searchString.ToUpper()) ||
                 x.Symbol.ToUpper().Contains(searchString.ToUpper()));
             }
 
             // sort list of cryptocurrencies information
-            switch (sortField) {
-                case "Name desc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderByDescending(currency => currency.Name);
+            switch (sortField)
+            {
+                case "Name desc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderByDescending(currency => currency.Name);
                     break;
                 }
-                case "Name asc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderBy(currency => currency.Name);
+                case "Name asc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderBy(currency => currency.Name);
                     break;
                 }
-                case "Symbol desc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderByDescending(currency => currency.Symbol);
-                    break;
-                    }
-                case "Symbol asc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderBy(currency => currency.Symbol);
+                case "Symbol desc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderByDescending(currency => currency.Symbol);
                     break;
                 }
-                case "Price desc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderByDescending(currency => currency.Price);
+                case "Symbol asc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderBy(currency => currency.Symbol);
                     break;
                 }
-                case "Price asc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderBy(currency => currency.Price);
+                case "Price desc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderByDescending(currency => currency.Price);
                     break;
                 }
-                case "Change1h desc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderByDescending(currency => currency.Percent_change_1h);
+                case "Price asc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderBy(currency => currency.Price);
                     break;
                 }
-                case "Change1h asc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderBy(currency => currency.Percent_change_1h);
+                case "Change1h desc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderByDescending(currency => currency.Percent_change_1h);
                     break;
                 }
-                case "Change24h desc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderByDescending(currency => currency.Percent_change_24h);
+                case "Change1h asc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderBy(currency => currency.Percent_change_1h);
                     break;
                 }
-                case "Change24h asc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderBy(currency => currency.Percent_change_24h);
+                case "Change24h desc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderByDescending(currency => currency.Percent_change_24h);
                     break;
                 }
-                case "MarketCap desc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderByDescending(currency => currency.Market_cap);
+                case "Change24h asc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderBy(currency => currency.Percent_change_24h);
                     break;
                 }
-                case "MarketCap asc": {
-                    Cryptocurrencies = Cryptocurrencies.OrderBy(currency => currency.Market_cap);
+                case "MarketCap desc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderByDescending(currency => currency.Market_cap);
                     break;
                 }
-                default: {
+                case "MarketCap asc":
+                {
+                    cryptocurrencies = cryptocurrencies.OrderBy(currency => currency.Market_cap);
+                    break;
+                }
+                default:
+                {
                     break;
                 }
             }
@@ -98,7 +116,7 @@ namespace CryptocurrencyRateWebApp.Controllers
             int pageSize = 8;
             int pageNumber = (page ?? 1);
 
-            return View(Cryptocurrencies.ToPagedList(pageNumber, pageSize));
+            return View(cryptocurrencies.ToPagedList(pageNumber, pageSize));
         }
     }
 }

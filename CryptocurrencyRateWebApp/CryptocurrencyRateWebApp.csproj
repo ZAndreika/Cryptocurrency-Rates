@@ -135,7 +135,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CryptoController.cs" />
     <Compile Include="Models\Cryptocurrency.cs" />
-    <Compile Include="Models\RegisteringUser.cs" />
+    <Compile Include="Models\RegisterUser.cs" />
     <Compile Include="Services\CoinMarketCapApiService.cs" />
     <Compile Include="Services\CRWADbContext.cs" />
     <Compile Include="Global.asax.cs">

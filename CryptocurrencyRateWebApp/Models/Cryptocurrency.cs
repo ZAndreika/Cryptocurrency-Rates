@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace CryptocurrencyRateWebApp.Models {
-    public class Cryptocurrency {
+namespace CryptocurrencyRateWebApp.Models
+{
+    public class Cryptocurrency
+    {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Symbol { get; set; }

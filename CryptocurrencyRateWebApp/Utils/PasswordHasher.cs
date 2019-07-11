@@ -1,9 +1,12 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-namespace CryptocurrencyRateWebApp.Utils {
-    public static class PasswordHasher {
-        public static string HashPassword(string password) {
+namespace CryptocurrencyRateWebApp.Utils
+{
+    public static class PasswordHasher
+    {
+        public static string HashPassword(string password)
+        {
             byte[] passwordBytes;
             byte[] hashBytes;
 
@@ -14,9 +17,11 @@ namespace CryptocurrencyRateWebApp.Utils {
             return passwordHash;
         }
 
-        private static string ByteArrayToString(byte[] arrInput) {
+        private static string ByteArrayToString(byte[] arrInput)
+        {
             StringBuilder sOutput = new StringBuilder(arrInput.Length);
-            for (int i = 0; i < arrInput.Length; i++) {
+            for (int i = 0; i < arrInput.Length; i++)
+            {
                 sOutput.Append(arrInput[i].ToString("X2"));
             }
             return sOutput.ToString();

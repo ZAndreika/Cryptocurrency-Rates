@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CryptocurrencyRateWebApp.Models {
-    public class User {
+namespace CryptocurrencyRateWebApp.Models
+{
+    public class User
+    {
         public int Id { get; set; }
 
         [Required]
