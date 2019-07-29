@@ -42,7 +42,6 @@ public enum SOME_ENUM
 - Fields names must be in lowerCamelCase
 - Properties names must be in UpperCamelCase
 - Methods names must be in UpperCamelCase
-- If access level - private, Do NOT explicitly specify this
 - For properties: between the opening bracket and the method, also after `;` put spaces
 - If the body of the method is empty, it is NOT necessary to move the brackets to a new line, between the brackets put spaces
 - Interfaces begin with the letter I, and the name in UpperCamelCase
