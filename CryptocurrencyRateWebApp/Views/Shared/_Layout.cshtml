@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Test fuse8</title>
+    <title>@ViewBag.Title - Crypto Rate</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -18,10 +18,10 @@
                     <span class="icon-bar"></span>
                 </button>
                 @if (Session.IsNewSession) { //if user is not login already
-                    @Html.ActionLink("Test fuse8", "Login", "Account", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Crypto Rate", "Login", "Account", new { area = "" }, new { @class = "navbar-brand" })
                 }
                 else {
-                    @Html.ActionLink("Test fuse8", "Index", "Crypto", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Crypto Rate", "Index", "Crypto", new { area = "" }, new { @class = "navbar-brand" })
                 }
             </div>
             <div class="navbar-collapse collapse">
